@@ -14,21 +14,41 @@ A modern, minimal, responsive restaurant website built with **HTML, CSS, and Jav
 - Sticky navigation bar
 - Smooth hover animations
 - Admin-editable JSON menu (stored in browser `localStorage`)
+- Free deployment with GitHub Pages
 
 ## Project Structure
 
 - `index.html` → page structure/sections
 - `styles.css` → responsive styling and animations
 - `script.js` → rendering, search/filter, JSON editor logic
-- `menu.json` → default editable menu source
+- `Photos/` → local images used by the site
+- `.github/workflows/deploy-pages.yml` → automatic GitHub Pages deployment
 
 ## How to Run
 
 Use any static server (recommended), for example VS Code Live Server.
 
+## Free Hosting
+
+This repository is configured for **GitHub Pages**, which is free for static websites.
+
+### Publish Steps
+
+1. Push this repository to GitHub on the `main` branch.
+2. Open the repository on GitHub.
+3. Go to **Settings** > **Pages**.
+4. Under **Build and deployment**, choose **Source: GitHub Actions**.
+5. Wait for the `Deploy static site to Pages` workflow to finish.
+
+Your public site URL should be:
+
+`https://sifat-07.github.io/GW-Static-Website/`
+
+If GitHub shows a different Pages URL in the repository settings, use that one.
+
 ## Edit Menu Data
 
-### Option 1: Edit `menu.json`
+### Option 1: Edit `script.js`
 Each item should look like:
 
 ```json
@@ -52,11 +72,14 @@ Each item should look like:
 
 Use one of these category values for filter compatibility:
 
-- `Burger`
-- `Pizza`
-- `Drinks`
+- `Vape`
+- `Bong`
+- `Exclusive Items`
+- `Joint`
+- `Bundle Deals`
+- `Accessories`
 
 ## Notes
 
-- If `menu.json` fails to load, app uses fallback menu data from `script.js`.
+- Menu data currently lives in `script.js` and can also be changed in the browser through `localStorage`.
 - Search and filters are applied together.
