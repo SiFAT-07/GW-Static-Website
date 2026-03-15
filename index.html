@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Wonderland | Your Place</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero" id="home">
+    <nav class="navbar">
+      <a class="brand" href="#home">Green Wonderland</a>
+      <ul class="nav-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#staff">Staff</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero-content section-container">
+      <p class="kicker">Fresh • Elegant • Memorable</p>
+      <h1>Crafted Flavors, Warm Moments</h1>
+      <p>
+        Discover a modern dining experience with carefully curated Gummy,
+        signature Vape, and a cozy atmosphere.
+      </p>
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+    </section>
+  </header>
+
+  <main>
+    <section class="section" id="menu">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>Food Menu</h2>
+          <p>Search dishes and filter by your favorite category.</p>
+        </div>
+
+        <div class="menu-controls card">
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search food item..."
+            aria-label="Search food item"
+          />
+          <div class="filter-group" id="filterGroup" role="group" aria-label="Filter by category">
+
+            <button class="filter-btn" data-category="All">All</button>
+            <button class="filter-btn" data-category="Vape">Vape</button>
+            <button class="filter-btn" data-category="Bong">Bong</button>
+            <button class="filter-btn" data-category="Exclusive Items">Exclusive Items</button>
+            <button class="filter-btn" data-category="Joint">Joint</button>
+            <button class="filter-btn" data-category="Bundle Deals">Bundle Deals</button>
+            <button class="filter-btn" data-category="Accessories">Accessories</button>
+          </div>
+        </div>
+
+        <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section alt" id="gallery">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>Food Gallery</h2>
+          <p>A glimpse of our chef specials and favorites.</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="staff">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>Our Staff</h2>
+          <p>Passionate people behind your dining experience.</p>
+        </div>
+        <div class="staff-grid" id="staffGrid"></div>
+      </div>
+    </section>
+
+    <section class="section alt" id="about">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>About Us</h2>
+        </div>
+        <div class="card about-card">
+          <p>
+            At Savora, we blend premium ingredients with creative techniques to deliver
+            comforting yet refined dishes. Our philosophy is simple: elegant food,
+            friendly service, and unforgettable taste.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>Contact</h2>
+          <p>We’d love to host you.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="card">
+            <h3>Visit Us</h3>
+            <p>21 Gourmet Avenue, Food City</p>
+            <p>Open Daily: 11:00 AM – 11:00 PM</p>
+          </div>
+          <div class="card">
+            <h3>Reach Us</h3>
+            <p>Phone: +1 (555) 123-9876</p>
+            <p>Email: hello@savora.com</p>
+          </div>
+        </div>
+
+        <div class="admin-panel card">
+          <h3>Admin Menu JSON Editor</h3>
+          <p>Edit menu JSON and save locally (stored in browser localStorage).</p>
+          <textarea id="menuJsonEditor" rows="10" aria-label="Menu JSON editor"></textarea>
+          <div class="admin-actions">
+            <button id="saveMenuBtn" class="btn-primary">Save JSON</button>
+            <button id="resetMenuBtn" class="btn-secondary">Reset to Default</button>
+          </div>
+          <p class="status-text" id="adminStatus"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Savora Restaurant. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
