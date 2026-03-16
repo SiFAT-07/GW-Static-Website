@@ -53,12 +53,20 @@
 
             <button class="filter-btn" data-category="All">All</button>
             <button class="filter-btn" data-category="Vape">Vape</button>
+            <button class="filter-btn" data-category="Refill">Refill</button>
             <button class="filter-btn" data-category="Bong">Bong</button>
             <button class="filter-btn" data-category="Exclusive Items">Exclusive Items</button>
             <button class="filter-btn" data-category="Joint">Joint</button>
             <button class="filter-btn" data-category="Bundle Deals">Bundle Deals</button>
             <button class="filter-btn" data-category="Accessories">Accessories</button>
           </div>
+        </div>
+
+        <div class="employee-bar card" id="employeeBar">
+          <label for="employeeSelect" class="employee-label">👤 Serving Employee</label>
+          <select id="employeeSelect" class="employee-select">
+            <option value="">— Select your name —</option>
+          </select>
         </div>
 
         <div class="calculator-layout" aria-live="polite">
@@ -185,6 +193,26 @@ Enjoy a chill atmosphere in here.
   <footer class="footer">
     <p>© <span id="year"></span> Savora Restaurant. All rights reserved.</p>
   </footer>
+
+  <div class="pin-overlay" id="pinOverlay" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <div class="pin-modal card">
+      <h3 id="pinTitle">Enter PIN to Finalise Bill</h3>
+      <p class="pin-hint">Manager PIN required to copy the bill and log the sale.</p>
+      <input
+        type="password"
+        id="pinInput"
+        class="pin-input"
+        maxlength="10"
+        placeholder="PIN"
+        autocomplete="off"
+      />
+      <p class="pin-error" id="pinError"></p>
+      <div class="pin-actions">
+        <button type="button" id="pinCancelBtn" class="btn-secondary">Cancel</button>
+        <button type="button" id="pinConfirmBtn" class="btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>

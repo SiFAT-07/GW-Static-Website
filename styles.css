@@ -688,6 +688,126 @@ a {
   margin-bottom: 0;
 }
 
+/* ── Employee selector ─────────────────────────────────────── */
+.employee-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.employee-label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.employee-select {
+  flex: 1 1 200px;
+  border: 1px solid #e2d8cd;
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  background: #fffdf9;
+  min-width: 160px;
+  cursor: pointer;
+}
+
+.employee-select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ── PIN modal ─────────────────────────────────────────────── */
+.pin-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(28, 20, 16, 0.55);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.pin-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pin-modal {
+  width: min(360px, calc(100% - 2rem));
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+  animation: pinSlideUp 0.22s ease;
+}
+
+@keyframes pinSlideUp {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.pin-modal h3 {
+  margin: 0;
+}
+
+.pin-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.pin-input {
+  width: 100%;
+  border: 1px solid #e2d8cd;
+  border-radius: 10px;
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 1.3rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+.pin-input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.pin-error {
+  margin: 0;
+  min-height: 1.2rem;
+  color: #b53a3a;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.pin-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.pin-actions .btn-primary {
+  margin-top: 0;
+  border-radius: 10px;
+  padding: 0.55rem 1.1rem;
+}
+
+.pin-actions .btn-secondary {
+  border: 1px solid #e2d8cd;
+  border-radius: 10px;
+  padding: 0.55rem 1.1rem;
+}
+
 .status-text {
   min-height: 1.4rem;
   margin-top: 0.6rem;

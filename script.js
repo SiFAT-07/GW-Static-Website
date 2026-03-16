@@ -8,38 +8,38 @@ const DEFAULT_MENU = [
   },
   {
     id: 2,
-    name: "Geek Bar (Flavour)",
+    name: "Geek Bar (Mango, Strawberry, Menthol, Apple, Blueberry)",
     price: 1250,
     category: "Vape",
-    image: "",
+    image: "Photos/2.png",
   },
   {
     id: 3,
     name: "Geek Bar (THC Oil)",
     price: 1350,
     category: "Vape",
-    image: "",
+    image: "Photos/3.png",
   },
   {
     id: 4,
-    name: "Geek Bar (THC)",
+    name: "Geek Bar (THC Oil)",
     price: 850,
-    category: "Vape",
-    image: "",
+    category: "Refill",
+    image: "Photos/4.png",
   },
   {
     id: 5,
     name: "Geek Bar (Mango, Strawberry, Menthol, Apple, Blueberry)",
-    price: 1150,
-    category: "Vape",
-    image: "",
+    price: 750,
+    category: "Refill",
+    image: "Photos/5.png",
   },
   {
     id: 6,
     name: "Bong with 5x Flavour 1q",
     price: 1399,
     category: "Bong",
-    image: "",
+    image: "Photos/6.png",
   },
   {
     id: 7,
@@ -52,21 +52,21 @@ const DEFAULT_MENU = [
     id: 8,
     name: "Weed Gummies",
     price: 800,
-    category: "Exclusive Items",
+    category: "Photos/8.png",
     image: "",
   },
   {
     id: 9,
     name: "Brownies",
     price: 700,
-    category: "Exclusive Items",
+    category: "Photos/9.png",
     image: "",
   },
   {
     id: 10,
     name: "Penjamin",
     price: 800,
-    category: "Exclusive Items",
+    category: "Photos/10.png",
     image: "",
   },
   {
@@ -74,98 +74,98 @@ const DEFAULT_MENU = [
     name: "5x Wild Haze",
     price: 1250,
     category: "Joint",
-    image: "",
+    image: "Photos/11.png",
   },
   {
     id: 12,
     name: "5x Bubble Berry",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/12.png",
   },
   {
     id: 13,
     name: "5x Northern Lights",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/13.png",
   },
   {
     id: 14,
     name: "5x Trainwreck",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/14.png",
   },
   {
     id: 15,
     name: "5x Gorilla Glue",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/15.png",
   },
   {
     id: 16,
     name: "5x OG Kush",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/16.png",
   },
   {
     id: 17,
     name: "5x Blue Dream",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/17.png",
   },
   {
     id: 18,
     name: "5x AK-47",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/18.png",
   },
   {
     id: 19,
     name: "5x Sour Dissel",
     price: 999,
     category: "Joint",
-    image: "",
+    image: "Photos/19.png",
   },
   {
     id: 20,
     name: "1x Vape, 1x Penjamin & 3x Joint",
     price: 2500,
     category: "Bundle Deals",
-    image: "",
+    image: "Photos/20.png",
   },
   {
     id: 21,
     name: "2x Vapes & 3x Penjamins",
     price: 4399,
     category: "Bundle Deals",
-    image: "",
+    image: "Photos/21.png",
   },
   {
     id: 22,
     name: "5 Penjamins",
     price: 3000,
     category: "Bundle Deals",
-    image: "",
+    image: "Photos/22.png",
   },
   {
     id: 23,
     name: "Ganja Wallet",
     price: 499,
     category: "Accessories",
-    image: "",
+    image: "Photos/23.png",
   },
   {
     id: 24,
     name: "Dank Memer Lunch Box",
     price: 499,
     category: "Accessories",
-    image: "",
+    image: "Photos/24.png",
   },
 ];
 
@@ -223,6 +223,21 @@ const vipCustomers = [
 
 const galleryImages = ["Photos/g1.png", "Photos/g2.png"];
 
+// ── POS Settings (edit these values) ──────────────────────────
+const BILL_PIN = "6969"; // Change to your preferred manager PIN
+const DISCORD_WEBHOOK =
+  "https://discord.com/api/webhooks/1483165828701618259/4aJ4G1DwzjJOZZ2IUZHOUE_sRgErQRlZN927aeAoZfNmZgDFpJLaYx0oj3ZOpDl_DO4h";
+
+const employees = [
+  "Mr JoJo",
+  "Sledge",
+  "Rakib Hasan",
+  "Samiul Karim",
+  "Nafis Rahman",
+  "Tahmid Chowdhury",
+];
+// ──────────────────────────────────────────────────────────────
+
 const menuGrid = document.getElementById("menuGrid");
 const searchInput = document.getElementById("searchInput");
 const filterGroup = document.getElementById("filterGroup");
@@ -242,6 +257,12 @@ const quickDiscountButtons = document.getElementById("quickDiscountButtons");
 const cartPanel = document.getElementById("cartPanel");
 const closeCartBtn = document.getElementById("closeCartBtn");
 const cartTabBtn = document.getElementById("cartTabBtn");
+const employeeSelect = document.getElementById("employeeSelect");
+const pinOverlay = document.getElementById("pinOverlay");
+const pinInput = document.getElementById("pinInput");
+const pinError = document.getElementById("pinError");
+const pinConfirmBtn = document.getElementById("pinConfirmBtn");
+const pinCancelBtn = document.getElementById("pinCancelBtn");
 
 let activeCategory = "All";
 let menuItems = [];
@@ -412,39 +433,109 @@ function updateItemQuantity(itemId, action) {
   renderCart();
 }
 
-function buildBillText() {
-  const lines = ["Mirror Park Auto Repair", "-------------------------"];
+function buildBillText(employeeName) {
+  const lines = [
+    "Green Wonderland",
+    "-------------------------",
+    `Employee: ${employeeName}`,
+    "",
+    "Items Sold:",
+  ];
 
   cart.forEach((quantity, id) => {
     const item = menuItems.find((menuItem) => menuItem.id === id);
     if (!item) return;
-
     const lineTotal = Number(item.price) * quantity;
-    lines.push(`${item.name} x${quantity} = ${formatPrice(lineTotal)}`);
+    lines.push(`\u2022 ${item.name} x${quantity} = $${lineTotal.toFixed(2)}`);
   });
 
   const { subtotal, discountAmount, total } = calculateCartTotals();
   lines.push("-------------------------");
-  lines.push(`Subtotal: ${formatPrice(subtotal)}`);
-  lines.push(`Discount: -${formatPrice(discountAmount)}`);
-  lines.push(`Total: ${formatPrice(total)}`);
+  if (discountAmount > 0) {
+    lines.push(`Subtotal: $${subtotal.toFixed(2)}`);
+    lines.push(`Discount: -$${discountAmount.toFixed(2)}`);
+  }
+  lines.push(`Total: $${total.toFixed(2)}`);
 
   return lines.join("\n");
 }
 
-async function copyBillToClipboard() {
+function copyBillToClipboard() {
   if (!cart.size) {
     setStatus("Add at least one item before copying the bill.", true);
     return;
   }
+  if (!employeeSelect.value) {
+    setStatus("Please select an employee before copying the bill.", true);
+    return;
+  }
+  openPinModal();
+}
 
-  const billText = buildBillText();
+function openPinModal() {
+  pinInput.value = "";
+  pinError.textContent = "";
+  pinOverlay.classList.add("open");
+  setTimeout(() => pinInput.focus(), 50);
+}
+
+function closePinModal() {
+  pinOverlay.classList.remove("open");
+}
+
+async function handlePinConfirm() {
+  if (pinInput.value !== BILL_PIN) {
+    pinError.textContent = "Incorrect PIN. Please try again.";
+    pinInput.value = "";
+    pinInput.focus();
+    return;
+  }
+
+  closePinModal();
+  const employeeName = employeeSelect.value;
+  const billText = buildBillText(employeeName);
 
   try {
     await navigator.clipboard.writeText(billText);
-    setStatus("Bill copied to clipboard.");
-  } catch (error) {
+    setStatus("\u2713 Bill copied to clipboard.");
+  } catch {
     setStatus("Clipboard copy failed. Please copy manually.", true);
+  }
+
+  await sendToDiscord(employeeName);
+}
+
+async function sendToDiscord(employeeName) {
+  const lines = [
+    "**\uD83D\uDED2 New Sale \u2014 Green Wonderland**",
+    `**Employee: ${employeeName}**`,
+    "",
+    "**Items Sold:**",
+  ];
+
+  cart.forEach((quantity, id) => {
+    const item = menuItems.find((mi) => mi.id === id);
+    if (!item) return;
+    const lineTotal = Number(item.price) * quantity;
+    lines.push(`\u2022 ${item.name} x${quantity} = $${lineTotal.toFixed(2)}`);
+  });
+
+  const { subtotal, discountAmount, total } = calculateCartTotals();
+  lines.push("");
+  if (discountAmount > 0) {
+    lines.push(`Subtotal: $${subtotal.toFixed(2)}`);
+    lines.push(`Discount: -$${discountAmount.toFixed(2)}`);
+  }
+  lines.push(`**Total: $${total.toFixed(2)}**`);
+
+  try {
+    await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: lines.join("\n"), username: "GW POS" }),
+    });
+  } catch {
+    // Webhook failure is non-critical; bill is already copied.
   }
 }
 
@@ -459,6 +550,15 @@ function applyFilters() {
   });
 
   renderMenu(filtered);
+}
+
+function renderEmployees() {
+  employees.forEach((name) => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    employeeSelect.appendChild(option);
+  });
 }
 
 function renderStaff() {
@@ -584,6 +684,16 @@ function bindEvents() {
   });
 
   copyBillBtn.addEventListener("click", copyBillToClipboard);
+
+  pinConfirmBtn.addEventListener("click", handlePinConfirm);
+  pinCancelBtn.addEventListener("click", closePinModal);
+  pinOverlay.addEventListener("click", (event) => {
+    if (event.target === pinOverlay) closePinModal();
+  });
+  pinInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") handlePinConfirm();
+    if (event.key === "Escape") closePinModal();
+  });
 }
 
 async function loadMenu() {
@@ -607,6 +717,7 @@ async function loadMenu() {
 
 async function init() {
   yearEl.textContent = new Date().getFullYear();
+  renderEmployees();
   renderStaff();
   renderVipCustomers();
   renderGallery();
