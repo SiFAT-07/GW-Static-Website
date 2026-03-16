@@ -46,7 +46,7 @@ const DEFAULT_MENU = [
     name: "Flavour 1q",
     price: 200,
     category: "Bong",
-    image: "",
+    image: "Photos/7.png",
   },
   {
     id: 8,
@@ -194,22 +194,59 @@ const staffData = [
   },
 ];
 
+const vipCustomers = [
+  {
+    name: "Rakib Hasan",
+    memberSince: "2021",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Samiul Karim",
+    memberSince: "2022",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Nafis Rahman",
+    memberSince: "2023",
+    image:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80",
+  },
+  {
+    name: "Tahmid Chowdhury",
+    memberSince: "2024",
+    image:
+      "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&fit=crop&w=500&q=80",
+  },
+];
+
 const galleryImages = ["Photos/g1.png", "Photos/g2.png"];
 
 const menuGrid = document.getElementById("menuGrid");
 const searchInput = document.getElementById("searchInput");
 const filterGroup = document.getElementById("filterGroup");
 const staffGrid = document.getElementById("staffGrid");
+const vipGrid = document.getElementById("vipGrid");
 const galleryGrid = document.getElementById("galleryGrid");
 const yearEl = document.getElementById("year");
-const menuJsonEditor = document.getElementById("menuJsonEditor");
-const saveMenuBtn = document.getElementById("saveMenuBtn");
-const resetMenuBtn = document.getElementById("resetMenuBtn");
-const adminStatus = document.getElementById("adminStatus");
+const cartStatus = document.getElementById("cartStatus");
+const cartItemsEl = document.getElementById("cartItems");
+const subtotalAmountEl = document.getElementById("subtotalAmount");
+const discountInput = document.getElementById("discountInput");
+const discountAmountEl = document.getElementById("discountAmount");
+const totalAmountEl = document.getElementById("totalAmount");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const copyBillBtn = document.getElementById("copyBillBtn");
+const quickDiscountButtons = document.getElementById("quickDiscountButtons");
+const cartPanel = document.getElementById("cartPanel");
+const closeCartBtn = document.getElementById("closeCartBtn");
+const cartTabBtn = document.getElementById("cartTabBtn");
 
 let activeCategory = "All";
 let menuItems = [];
-let defaultJsonText = "";
+const cart = new Map();
+let isCartOpen = false;
 
 function formatPrice(price) {
   return `$${Number(price).toFixed(2)}`;
@@ -222,22 +259,193 @@ function renderMenu(items) {
     return;
   }
 
-  menuGrid.innerHTML = items
+  const groupedItems = items.reduce((groups, item) => {
+    const key = item.category || "Others";
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(item);
+    return groups;
+  }, {});
+
+  menuGrid.innerHTML = Object.entries(groupedItems)
     .map(
-      (item) => `
-      <article class="card food-card">
-        <img src="${item.image}" alt="${item.name}" loading="lazy" />
-        <div class="food-content">
-          <div class="food-top">
-            <h3>${item.name}</h3>
-            <span class="price">${formatPrice(item.price)}</span>
-          </div>
-          <span class="category">${item.category}</span>
+      ([category, categoryItems]) => `
+      <section class="catalog-category">
+        <h4>${category}</h4>
+        <div class="catalog-list">
+          ${categoryItems
+            .map(
+              (item) => `
+              <article class="catalog-item">
+                ${
+                  item.image
+                    ? `<img class="catalog-item-image" src="${item.image}" alt="${item.name}" loading="lazy" />`
+                    : `<div class="catalog-item-image placeholder">No image</div>`
+                }
+                <div class="catalog-item-top">
+                  <p class="catalog-item-name">${item.name}</p>
+                  <span class="catalog-item-price">${formatPrice(item.price)}</span>
+                </div>
+                <button type="button" class="add-item-btn" data-item-id="${item.id}" aria-label="Add ${item.name} to cart">+</button>
+              </article>
+            `,
+            )
+            .join("")}
         </div>
-      </article>
+      </section>
     `,
     )
     .join("");
+}
+
+function calculateCartTotals() {
+  let subtotal = 0;
+
+  cart.forEach((quantity, id) => {
+    const item = menuItems.find((menuItem) => menuItem.id === id);
+    if (item) {
+      subtotal += Number(item.price) * quantity;
+    }
+  });
+
+  const discountPercent = Math.max(
+    0,
+    Math.min(100, Number.parseFloat(discountInput.value) || 0),
+  );
+  const discountAmount = subtotal * (discountPercent / 100);
+  const total = subtotal - discountAmount;
+
+  return { subtotal, discountAmount, total };
+}
+
+function renderCart() {
+  const cartEntries = [];
+
+  cart.forEach((quantity, id) => {
+    const item = menuItems.find((menuItem) => menuItem.id === id);
+    if (item) {
+      cartEntries.push({ item, quantity });
+    }
+  });
+
+  if (!cartEntries.length) {
+    cartItemsEl.innerHTML = '<p class="cart-empty">No items added yet.</p>';
+  } else {
+    cartItemsEl.innerHTML = cartEntries
+      .map(
+        ({ item, quantity }) => `
+      <article class="cart-line">
+        <div class="cart-line-top">
+          <p class="cart-line-name">${item.name}</p>
+          <span class="cart-line-price">${formatPrice(item.price)}</span>
+        </div>
+        <div class="cart-line-bottom">
+          <div class="qty-controls">
+            <button type="button" class="qty-btn" data-action="decrease" data-item-id="${item.id}">-</button>
+            <span class="qty-value">${quantity}</span>
+            <button type="button" class="qty-btn" data-action="increase" data-item-id="${item.id}">+</button>
+          </div>
+          <strong>${formatPrice(Number(item.price) * quantity)}</strong>
+        </div>
+      </article>
+    `,
+      )
+      .join("");
+  }
+
+  const { subtotal, discountAmount, total } = calculateCartTotals();
+  subtotalAmountEl.textContent = formatPrice(subtotal);
+  discountAmountEl.textContent = `-${formatPrice(discountAmount)}`;
+  totalAmountEl.textContent = formatPrice(total);
+  updateCartVisibility();
+}
+
+function getCartItemCount() {
+  let totalItems = 0;
+  cart.forEach((quantity) => {
+    totalItems += quantity;
+  });
+  return totalItems;
+}
+
+function updateCartVisibility() {
+  const hasItems = cart.size > 0;
+
+  if (!hasItems) {
+    isCartOpen = false;
+  }
+
+  cartPanel.classList.toggle("open", hasItems && isCartOpen);
+  cartTabBtn.classList.toggle("visible", hasItems);
+  cartTabBtn.textContent = `Cart (${getCartItemCount()})`;
+}
+
+function addItemToCart(itemId) {
+  const wasEmpty = cart.size === 0;
+  const currentQty = cart.get(itemId) || 0;
+  cart.set(itemId, currentQty + 1);
+
+  if (wasEmpty) {
+    isCartOpen = true;
+  }
+
+  renderCart();
+}
+
+function updateItemQuantity(itemId, action) {
+  const currentQty = cart.get(itemId) || 0;
+  if (currentQty === 0) return;
+
+  if (action === "increase") {
+    cart.set(itemId, currentQty + 1);
+  }
+
+  if (action === "decrease") {
+    if (currentQty === 1) {
+      cart.delete(itemId);
+    } else {
+      cart.set(itemId, currentQty - 1);
+    }
+  }
+
+  renderCart();
+}
+
+function buildBillText() {
+  const lines = ["Mirror Park Auto Repair", "-------------------------"];
+
+  cart.forEach((quantity, id) => {
+    const item = menuItems.find((menuItem) => menuItem.id === id);
+    if (!item) return;
+
+    const lineTotal = Number(item.price) * quantity;
+    lines.push(`${item.name} x${quantity} = ${formatPrice(lineTotal)}`);
+  });
+
+  const { subtotal, discountAmount, total } = calculateCartTotals();
+  lines.push("-------------------------");
+  lines.push(`Subtotal: ${formatPrice(subtotal)}`);
+  lines.push(`Discount: -${formatPrice(discountAmount)}`);
+  lines.push(`Total: ${formatPrice(total)}`);
+
+  return lines.join("\n");
+}
+
+async function copyBillToClipboard() {
+  if (!cart.size) {
+    setStatus("Add at least one item before copying the bill.", true);
+    return;
+  }
+
+  const billText = buildBillText();
+
+  try {
+    await navigator.clipboard.writeText(billText);
+    setStatus("Bill copied to clipboard.");
+  } catch (error) {
+    setStatus("Clipboard copy failed. Please copy manually.", true);
+  }
 }
 
 function applyFilters() {
@@ -269,6 +477,35 @@ function renderStaff() {
     .join("");
 }
 
+function getInitials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join("");
+}
+
+function renderVipCustomers() {
+  vipGrid.innerHTML = vipCustomers
+    .map(
+      (customer) => `
+      <article class="card vip-card">
+        <div class="vip-top">
+          ${
+            customer.image
+              ? `<img class="vip-avatar" src="${customer.image}" alt="${customer.name}" loading="lazy" />`
+              : `<div class="vip-initial" aria-hidden="true">${getInitials(customer.name)}</div>`
+          }
+          <h3 class="vip-name">${customer.name}</h3>
+        </div>
+        <p class="vip-since">Member since ${customer.memberSince}</p>
+      </article>
+    `,
+    )
+    .join("");
+}
+
 function renderGallery() {
   galleryGrid.innerHTML = galleryImages
     .map(
@@ -282,32 +519,8 @@ function renderGallery() {
 }
 
 function setStatus(message, isError = false) {
-  adminStatus.textContent = message;
-  adminStatus.style.color = isError ? "#a63f2e" : "#6f655e";
-}
-
-function saveCustomMenu() {
-  try {
-    const parsed = JSON.parse(menuJsonEditor.value);
-    if (!Array.isArray(parsed)) {
-      throw new Error("JSON must be an array of menu items.");
-    }
-
-    localStorage.setItem("restaurantMenu", JSON.stringify(parsed));
-    menuItems = parsed;
-    applyFilters();
-    setStatus("Menu JSON saved successfully.");
-  } catch (error) {
-    setStatus(error.message, true);
-  }
-}
-
-function resetToDefaultMenu() {
-  localStorage.removeItem("restaurantMenu");
-  menuItems = JSON.parse(defaultJsonText);
-  menuJsonEditor.value = defaultJsonText;
-  applyFilters();
-  setStatus("Menu reset to default data.");
+  cartStatus.textContent = message;
+  cartStatus.style.color = isError ? "#a63f2e" : "#6f655e";
 }
 
 function bindEvents() {
@@ -326,16 +539,57 @@ function bindEvents() {
     applyFilters();
   });
 
-  saveMenuBtn.addEventListener("click", saveCustomMenu);
-  resetMenuBtn.addEventListener("click", resetToDefaultMenu);
+  menuGrid.addEventListener("click", (event) => {
+    const addButton = event.target.closest(".add-item-btn");
+    if (!addButton) return;
+
+    addItemToCart(Number(addButton.dataset.itemId));
+  });
+
+  cartItemsEl.addEventListener("click", (event) => {
+    const qtyButton = event.target.closest(".qty-btn");
+    if (!qtyButton) return;
+
+    const itemId = Number(qtyButton.dataset.itemId);
+    const action = qtyButton.dataset.action;
+    updateItemQuantity(itemId, action);
+  });
+
+  discountInput.addEventListener("input", () => {
+    renderCart();
+  });
+
+  quickDiscountButtons.addEventListener("click", (event) => {
+    const discountButton = event.target.closest("button[data-discount]");
+    if (!discountButton) return;
+
+    discountInput.value = discountButton.dataset.discount;
+    renderCart();
+  });
+
+  clearCartBtn.addEventListener("click", () => {
+    cart.clear();
+    renderCart();
+  });
+
+  closeCartBtn.addEventListener("click", () => {
+    isCartOpen = false;
+    updateCartVisibility();
+  });
+
+  cartTabBtn.addEventListener("click", () => {
+    if (!cart.size) return;
+    isCartOpen = !isCartOpen;
+    updateCartVisibility();
+  });
+
+  copyBillBtn.addEventListener("click", copyBillToClipboard);
 }
 
 async function loadMenu() {
   const localMenu = localStorage.getItem("restaurantMenu");
   if (localMenu) {
     menuItems = JSON.parse(localMenu);
-    defaultJsonText = JSON.stringify(DEFAULT_MENU, null, 2);
-    menuJsonEditor.value = JSON.stringify(menuItems, null, 2);
     return;
   }
 
@@ -346,22 +600,20 @@ async function loadMenu() {
     }
 
     menuItems = await response.json();
-    defaultJsonText = JSON.stringify(menuItems, null, 2);
   } catch (error) {
     menuItems = DEFAULT_MENU;
-    defaultJsonText = JSON.stringify(DEFAULT_MENU, null, 2);
   }
-
-  menuJsonEditor.value = JSON.stringify(menuItems, null, 2);
 }
 
 async function init() {
   yearEl.textContent = new Date().getFullYear();
   renderStaff();
+  renderVipCustomers();
   renderGallery();
   bindEvents();
   await loadMenu();
   applyFilters();
+  renderCart();
 }
 
 init();

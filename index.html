@@ -17,6 +17,7 @@
         <li><a href="#menu">Menu</a></li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#staff">Staff</a></li>
+        <li><a href="#vip">VIP Customers</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -37,16 +38,16 @@
     <section class="section" id="menu">
       <div class="section-container">
         <div class="section-heading">
-          <h2>Food Menu</h2>
-          <p>Search dishes and filter by your favorite category.</p>
+          <h2>Green Wonderland</h2>
+          <p>Search items and filter by your favorite category.</p>
         </div>
 
         <div class="menu-controls card">
           <input
             type="search"
             id="searchInput"
-            placeholder="Search food item..."
-            aria-label="Search food item"
+            placeholder="Search item..."
+            aria-label="Search item"
           />
           <div class="filter-group" id="filterGroup" role="group" aria-label="Filter by category">
 
@@ -60,14 +61,64 @@
           </div>
         </div>
 
-        <div class="menu-grid" id="menuGrid" aria-live="polite"></div>
+        <div class="calculator-layout" aria-live="polite">
+          <section class="card catalog-panel">
+            <div class="catalog-header-row">
+              <h3>Price Catalog</h3>
+            </div>
+            <div class="catalog-grid" id="menuGrid"></div>
+          </section>
+
+          <aside class="card cart-panel" id="cartPanel" aria-label="Cart drawer">
+            <div class="cart-drawer-header">
+              <h3>Cart</h3>
+              <button type="button" id="closeCartBtn" class="close-cart-btn" aria-label="Close cart">x</button>
+            </div>
+            <div id="cartItems" class="cart-items">
+              <p class="cart-empty">No items added yet.</p>
+            </div>
+
+            <div class="cart-summary-row">
+              <span>Subtotal</span>
+              <strong id="subtotalAmount">$0.00</strong>
+            </div>
+
+            <div class="cart-summary-row discount-row">
+              <label for="discountInput">Discount</label>
+              <div class="discount-input-wrap">
+                <input type="number" id="discountInput" min="0" max="100" value="0" />
+                <span>%</span>
+              </div>
+              <strong id="discountAmount">-$0.00</strong>
+            </div>
+
+            <div class="quick-discount" id="quickDiscountButtons" role="group" aria-label="Quick discount buttons">
+              <button type="button" class="discount-chip" data-discount="10">10%</button>
+              <button type="button" class="discount-chip" data-discount="20">20%</button>
+              <button type="button" class="discount-chip" data-discount="30">30%</button>
+            </div>
+
+            <div class="cart-summary-row total-row">
+              <span>Total</span>
+              <strong id="totalAmount">$0.00</strong>
+            </div>
+
+            <div class="cart-actions">
+              <button type="button" id="clearCartBtn" class="btn-danger">Clear</button>
+              <button type="button" id="copyBillBtn" class="btn-primary">Copy Bill</button>
+            </div>
+            <p class="status-text cart-status" id="cartStatus" aria-live="polite"></p>
+          </aside>
+
+          <button type="button" id="cartTabBtn" class="cart-tab-btn" aria-label="Toggle cart">Cart (0)</button>
+        </div>
       </div>
     </section>
 
     <section class="section alt" id="gallery">
       <div class="section-container">
         <div class="section-heading">
-          <h2>Food Gallery</h2>
+          <h2>Gallery</h2>
           <p>A glimpse of our chef specials and favorites.</p>
         </div>
         <div class="gallery-grid" id="galleryGrid"></div>
@@ -84,22 +135,32 @@
       </div>
     </section>
 
-    <section class="section alt" id="about">
+    <section class="section alt" id="vip">
+      <div class="section-container">
+        <div class="section-heading">
+          <h2>VIP Customers</h2>
+          <p>Special members who have been with us through the years.</p>
+        </div>
+        <div class="vip-grid" id="vipGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
       <div class="section-container">
         <div class="section-heading">
           <h2>About Us</h2>
         </div>
         <div class="card about-card">
           <p>
-            At Savora, we blend premium ingredients with creative techniques to deliver
-            comforting yet refined dishes. Our philosophy is simple: elegant food,
-            friendly service, and unforgettable taste.
+            Welcome to one of your favorite weed dispensary shop in Los Santos Green Wonderland -
+Known for it's quality products and most useful accessories , Green Wonderland is the perfect place to find top notch cannabis.
+Enjoy a chill atmosphere in here.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="contact">
+    <section class="section alt" id="contact">
       <div class="section-container">
         <div class="section-heading">
           <h2>Contact</h2>
@@ -108,25 +169,14 @@
         <div class="contact-grid">
           <div class="card">
             <h3>Visit Us</h3>
-            <p>21 Gourmet Avenue, Food City</p>
-            <p>Open Daily: 11:00 AM – 11:00 PM</p>
+            <p>Opposite of Gas Station , Calais Ave / Little Seoul , Los Santos</p>
+            <p>Open Daily: 24/7</p>
           </div>
           <div class="card">
             <h3>Reach Us</h3>
-            <p>Phone: +1 (555) 123-9876</p>
-            <p>Email: hello@savora.com</p>
+            <p>Phone: 666-6767</p>
+            <p>Email: </p>
           </div>
-        </div>
-
-        <div class="admin-panel card">
-          <h3>Admin Menu JSON Editor</h3>
-          <p>Edit menu JSON and save locally (stored in browser localStorage).</p>
-          <textarea id="menuJsonEditor" rows="10" aria-label="Menu JSON editor"></textarea>
-          <div class="admin-actions">
-            <button id="saveMenuBtn" class="btn-primary">Save JSON</button>
-            <button id="resetMenuBtn" class="btn-secondary">Reset to Default</button>
-          </div>
-          <p class="status-text" id="adminStatus"></p>
         </div>
       </div>
     </section>
