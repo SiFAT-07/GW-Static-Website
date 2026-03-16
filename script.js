@@ -52,22 +52,22 @@ const DEFAULT_MENU = [
     id: 8,
     name: "Weed Gummies",
     price: 800,
-    category: "Photos/8.png",
-    image: "",
+    category: "Exclusive Items",
+    image: "Photos/GW.png ",
   },
   {
     id: 9,
     name: "Brownies",
     price: 700,
-    category: "Photos/9.png",
-    image: "",
+    category: "Exclusive Items",
+    image: "Photos/GW.png",
   },
   {
     id: 10,
     name: "Penjamin",
     price: 800,
-    category: "Photos/10.png",
-    image: "",
+    category: "Exclusive Items",
+    image: "Photos/GW.png",
   },
   {
     id: 11,
@@ -81,77 +81,77 @@ const DEFAULT_MENU = [
     name: "5x Bubble Berry",
     price: 999,
     category: "Joint",
-    image: "Photos/12.png",
+    image: "Photos/GW.png",
   },
   {
     id: 13,
     name: "5x Northern Lights",
     price: 999,
     category: "Joint",
-    image: "Photos/13.png",
+    image: "Photos/GW.png",
   },
   {
     id: 14,
     name: "5x Trainwreck",
     price: 999,
     category: "Joint",
-    image: "Photos/14.png",
+    image: "Photos/GW.png",
   },
   {
     id: 15,
     name: "5x Gorilla Glue",
     price: 999,
     category: "Joint",
-    image: "Photos/15.png",
+    image: "Photos/GW.png",
   },
   {
     id: 16,
     name: "5x OG Kush",
     price: 999,
     category: "Joint",
-    image: "Photos/16.png",
+    image: "Photos/GW.png",
   },
   {
     id: 17,
     name: "5x Blue Dream",
     price: 999,
     category: "Joint",
-    image: "Photos/17.png",
+    image: "Photos/GW.png",
   },
   {
     id: 18,
     name: "5x AK-47",
     price: 999,
     category: "Joint",
-    image: "Photos/18.png",
+    image: "Photos/GW.png",
   },
   {
     id: 19,
     name: "5x Sour Dissel",
     price: 999,
     category: "Joint",
-    image: "Photos/19.png",
+    image: "Photos/GW.png",
   },
   {
     id: 20,
     name: "1x Vape, 1x Penjamin & 3x Joint",
     price: 2500,
     category: "Bundle Deals",
-    image: "Photos/20.png",
+    image: "Photos/GW.png",
   },
   {
     id: 21,
     name: "2x Vapes & 3x Penjamins",
     price: 4399,
     category: "Bundle Deals",
-    image: "Photos/21.png",
+    image: "Photos/GW.png",
   },
   {
     id: 22,
     name: "5 Penjamins",
     price: 3000,
     category: "Bundle Deals",
-    image: "Photos/22.png",
+    image: "Photos/GW.png",
   },
   {
     id: 23,
@@ -171,53 +171,47 @@ const DEFAULT_MENU = [
 
 const staffData = [
   {
-    name: "Mr JoJo",
+    name: "Mr Judgment",
     designation: "Owner",
-    image: "Photos/owner.jpg",
+    image: "Photos/GW.png",
   },
   {
     name: "Sledge",
-    designation: "Manager",
+    designation: "SENIOR SALESMAN",
     image: "Photos/Manager.png",
   },
   {
-    name: "Mia Johnson",
-    designation: "Restaurant Manager",
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=80",
+    name: "Junaeid Khanna",
+    designation: "SENIOR SALESMAN",
+    image: "Photos/GW.png",
   },
   {
-    name: "Noah Smith",
-    designation: "Beverage Specialist",
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=700&q=80",
+    name: "Lalu Mostan",
+    designation: "SALESMANt",
+    image: "Photos/GW.png",
+  },
+  {
+    name: "Atim Alu ",
+    designation: "SALESMANt",
+    image: "Photos/GW.png",
+  },
+  {
+    name: "Tabito Geimveil ",
+    designation: "SALESMANt",
+    image: "Photos/GW.png",
   },
 ];
 
 const vipCustomers = [
   {
     name: "Rakib Hasan",
-    memberSince: "2021",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80",
+    memberSince: "14 March , 2026",
+    image: "Photos/GW.png",
   },
   {
     name: "Samiul Karim",
-    memberSince: "2022",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "Nafis Rahman",
-    memberSince: "2023",
-    image:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "Tahmid Chowdhury",
-    memberSince: "2024",
-    image:
-      "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&fit=crop&w=500&q=80",
+    memberSince: "14 March , 2026",
+    image: "Photos/GW.png",
   },
 ];
 
@@ -229,12 +223,12 @@ const DISCORD_WEBHOOK =
   "https://discord.com/api/webhooks/1483165828701618259/4aJ4G1DwzjJOZZ2IUZHOUE_sRgErQRlZN927aeAoZfNmZgDFpJLaYx0oj3ZOpDl_DO4h";
 
 const employees = [
-  "Mr JoJo",
+  "Mr Judgment",
   "Sledge",
-  "Rakib Hasan",
-  "Samiul Karim",
-  "Nafis Rahman",
-  "Tahmid Chowdhury",
+  "Junaeid Khanna",
+  "Lalu Mostan",
+  "Atim Alu ",
+  "Tabito Geimveil",
 ];
 // ──────────────────────────────────────────────────────────────
 
