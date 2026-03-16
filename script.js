@@ -137,21 +137,21 @@ const DEFAULT_MENU = [
     name: "1x Vape, 1x Penjamin & 3x Joint",
     price: 2500,
     category: "Bundle Deals",
-    image: "Photos/GW.png",
+    image: "Photos/20.png",
   },
   {
     id: 21,
     name: "2x Vapes & 3x Penjamins",
     price: 4399,
     category: "Bundle Deals",
-    image: "Photos/GW.png",
+    image: "Photos/21.png",
   },
   {
     id: 22,
     name: "5 Penjamins",
     price: 3000,
     category: "Bundle Deals",
-    image: "Photos/GW.png",
+    image: "Photos/22.png",
   },
   {
     id: 23,
@@ -257,11 +257,19 @@ const pinInput = document.getElementById("pinInput");
 const pinError = document.getElementById("pinError");
 const pinConfirmBtn = document.getElementById("pinConfirmBtn");
 const pinCancelBtn = document.getElementById("pinCancelBtn");
+const cardPopupOverlay = document.getElementById("cardPopupOverlay");
+const cardPopupCloseBtn = document.getElementById("cardPopupCloseBtn");
+const cardPopupMediaWrap = document.getElementById("cardPopupMediaWrap");
+const cardPopupImage = document.getElementById("cardPopupImage");
+const cardPopupTitle = document.getElementById("cardPopupTitle");
+const cardPopupMeta = document.getElementById("cardPopupMeta");
+const cardPopupText = document.getElementById("cardPopupText");
 
 let activeCategory = "All";
 let menuItems = [];
 const cart = new Map();
 let isCartOpen = false;
+let scrollRevealObserver;
 
 function formatPrice(price) {
   return `$${Number(price).toFixed(2)}`;
@@ -312,6 +320,58 @@ function renderMenu(items) {
     `,
     )
     .join("");
+
+  animateCardReveal(menuGrid, ".catalog-item");
+}
+
+function animateCardReveal(container, selector) {
+  const cards = container.querySelectorAll(selector);
+  cards.forEach((card, index) => {
+    card.classList.add("reveal-card");
+    card.style.animationDelay = `${Math.min(index * 0.03, 0.28)}s`;
+  });
+
+  requestAnimationFrame(() => {
+    cards.forEach((card) => {
+      card.classList.add("visible");
+    });
+  });
+
+  registerScrollReveal(container, selector);
+}
+
+function initScrollReveal() {
+  if (scrollRevealObserver) return;
+
+  scrollRevealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          scrollRevealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0.15,
+      rootMargin: "0px 0px -8% 0px",
+    },
+  );
+}
+
+function registerScrollReveal(root = document, selector = ".scroll-reveal") {
+  initScrollReveal();
+
+  const elements = root.querySelectorAll ? root.querySelectorAll(selector) : [];
+
+  elements.forEach((element, index) => {
+    if (element.dataset.revealBound === "1") return;
+    element.classList.add("scroll-reveal");
+    element.style.transitionDelay = `${Math.min(index * 0.05, 0.22)}s`;
+    element.dataset.revealBound = "1";
+    scrollRevealObserver.observe(element);
+  });
 }
 
 function calculateCartTotals() {
@@ -477,6 +537,30 @@ function closePinModal() {
   pinOverlay.classList.remove("open");
 }
 
+function openCardPopup({ title, meta, text, image, imageAlt }) {
+  cardPopupTitle.textContent = title || "Details";
+  cardPopupMeta.textContent = meta || "";
+  cardPopupMeta.style.display = meta ? "block" : "none";
+  cardPopupText.textContent = text || "";
+  cardPopupText.style.display = text ? "block" : "none";
+
+  if (image) {
+    cardPopupImage.src = image;
+    cardPopupImage.alt = imageAlt || title || "Card image";
+    cardPopupMediaWrap.hidden = false;
+  } else {
+    cardPopupImage.removeAttribute("src");
+    cardPopupImage.alt = "";
+    cardPopupMediaWrap.hidden = true;
+  }
+
+  cardPopupOverlay.classList.add("open");
+}
+
+function closeCardPopup() {
+  cardPopupOverlay.classList.remove("open");
+}
+
 async function handlePinConfirm() {
   if (pinInput.value !== BILL_PIN) {
     pinError.textContent = "Incorrect PIN. Please try again.";
@@ -569,6 +653,8 @@ function renderStaff() {
     `,
     )
     .join("");
+
+  animateCardReveal(staffGrid, ".staff-card");
 }
 
 function getInitials(name) {
@@ -598,6 +684,8 @@ function renderVipCustomers() {
     `,
     )
     .join("");
+
+  animateCardReveal(vipGrid, ".vip-card");
 }
 
 function renderGallery() {
@@ -610,6 +698,8 @@ function renderGallery() {
     `,
     )
     .join("");
+
+  animateCardReveal(galleryGrid, ".gallery-card");
 }
 
 function setStatus(message, isError = false) {
@@ -635,9 +725,80 @@ function bindEvents() {
 
   menuGrid.addEventListener("click", (event) => {
     const addButton = event.target.closest(".add-item-btn");
-    if (!addButton) return;
+    if (addButton) {
+      addItemToCart(Number(addButton.dataset.itemId));
+      return;
+    }
 
-    addItemToCart(Number(addButton.dataset.itemId));
+    const card = event.target.closest(".catalog-item");
+    if (!card) return;
+
+    const name = card.querySelector(".catalog-item-name")?.textContent?.trim();
+    const price = card
+      .querySelector(".catalog-item-price")
+      ?.textContent?.trim();
+    const image = card
+      .querySelector(".catalog-item-image:not(.placeholder)")
+      ?.getAttribute("src");
+
+    openCardPopup({
+      title: name || "Item",
+      meta: price || "",
+      text: "Tap + to add this item to the cart.",
+      image,
+      imageAlt: name || "Catalog image",
+    });
+  });
+
+  staffGrid.addEventListener("click", (event) => {
+    const card = event.target.closest(".staff-card");
+    if (!card) return;
+
+    const name = card.querySelector("h3")?.textContent?.trim();
+    const designation = card.querySelector("p")?.textContent?.trim();
+    const image = card.querySelector("img")?.getAttribute("src");
+
+    openCardPopup({
+      title: name || "Staff",
+      meta: designation || "",
+      text: "Part of the Green Wonderland team.",
+      image,
+      imageAlt: name || "Staff image",
+    });
+  });
+
+  vipGrid.addEventListener("click", (event) => {
+    const card = event.target.closest(".vip-card");
+    if (!card) return;
+
+    const name = card.querySelector(".vip-name")?.textContent?.trim();
+    const since = card.querySelector(".vip-since")?.textContent?.trim();
+    const image = card.querySelector(".vip-avatar")?.getAttribute("src");
+
+    openCardPopup({
+      title: name || "VIP Customer",
+      meta: since || "",
+      text: "A valued member of Green Wonderland.",
+      image,
+      imageAlt: name || "VIP image",
+    });
+  });
+
+  galleryGrid.addEventListener("click", (event) => {
+    const card = event.target.closest(".gallery-card");
+    if (!card) return;
+
+    const imageEl = card.querySelector("img");
+    const image = imageEl?.getAttribute("src");
+    const alt = imageEl?.getAttribute("alt") || "Gallery image";
+
+    openCardPopup({
+      title: "Gallery",
+      meta: "Green Wonderland",
+      text: alt,
+      image,
+      imageAlt: alt,
+    });
   });
 
   cartItemsEl.addEventListener("click", (event) => {
@@ -688,6 +849,28 @@ function bindEvents() {
     if (event.key === "Enter") handlePinConfirm();
     if (event.key === "Escape") closePinModal();
   });
+
+  cardPopupCloseBtn.addEventListener("click", closeCardPopup);
+  cardPopupOverlay.addEventListener("click", (event) => {
+    if (event.target === cardPopupOverlay) closeCardPopup();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closePinModal();
+      closeCardPopup();
+    }
+  });
+}
+
+function bootAnimations() {
+  requestAnimationFrame(() => {
+    document.body.classList.add("page-ready");
+  });
+
+  registerScrollReveal(
+    document,
+    ".section-heading, .menu-controls, .employee-bar, .about-card, .contact-grid .card",
+  );
 }
 
 async function loadMenu() {
@@ -711,6 +894,7 @@ async function loadMenu() {
 
 async function init() {
   yearEl.textContent = new Date().getFullYear();
+  bootAnimations();
   renderEmployees();
   renderStaff();
   renderVipCustomers();

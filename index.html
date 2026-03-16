@@ -219,6 +219,20 @@ Green Wonderland isn’t just a shop — it’s a destination for anyone in Los 
     </div>
   </div>
 
+  <div class="card-popup-overlay" id="cardPopupOverlay" role="dialog" aria-modal="true" aria-labelledby="cardPopupTitle">
+    <div class="card-popup card">
+      <button type="button" id="cardPopupCloseBtn" class="card-popup-close" aria-label="Close popup">x</button>
+      <div class="card-popup-media-wrap" id="cardPopupMediaWrap" hidden>
+        <img id="cardPopupImage" class="card-popup-image" alt="" />
+      </div>
+      <div class="card-popup-body">
+        <h3 id="cardPopupTitle"></h3>
+        <p id="cardPopupMeta" class="card-popup-meta"></p>
+        <p id="cardPopupText" class="card-popup-text"></p>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js" defer></script>
 </body>
 </html>
