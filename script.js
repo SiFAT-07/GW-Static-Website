@@ -173,32 +173,32 @@ const staffData = [
   {
     name: "Mr Judgment",
     designation: "Owner",
-    image: "Photos/GW.png",
+    image: "Photos/judge.png",
   },
   {
     name: "Sledge",
     designation: "SENIOR SALESMAN",
-    image: "Photos/Manager.png",
+    image: "Photos/sledge.png",
   },
   {
     name: "Junaeid Khanna",
     designation: "SENIOR SALESMAN",
-    image: "Photos/GW.png",
+    image: "Photos/jun.jpg",
   },
   {
     name: "Lalu Mostan",
-    designation: "SALESMANt",
+    designation: "SALESMAN",
     image: "Photos/GW.png",
   },
   {
     name: "Atim Alu ",
-    designation: "SALESMANt",
-    image: "Photos/GW.png",
+    designation: "SALESMAN",
+    image: "Photos/alu.png",
   },
   {
-    name: "Tabito Geimveil ",
-    designation: "SALESMANt",
-    image: "Photos/GW.png",
+    name: "Tabito Grimveil ",
+    designation: "SALESMAN",
+    image: "Photos/tabito.png",
   },
 ];
 
