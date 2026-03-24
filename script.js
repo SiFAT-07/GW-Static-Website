@@ -215,14 +215,14 @@ const vipCustomers = [
   {
     name: "Tyrone Biggums",
     memberSince: "20 March 2026 - 03 April 2026",
-    cid: 932 - 4761(896),
+    cid: "932-4761 (896)",
     image:
       "https://media.discordapp.net/attachments/1484503108250898512/1484513808486502421/Desktop_Screenshot_2026.03.20_-_16.41.38.52.png?ex=69be80b8&is=69bd2f38&hm=f92769100ffb5bc070231047c74abacaf3636c738dc735d784bad6ebc16549eb&=&format=webp&quality=lossless",
   },
   {
     name: "Sweet Sins",
     memberSince: "20 March 2026 - 03 April 2026",
-    cid: 482 - 7453(912),
+    cid: "482-7453 (912)",
     image:
       "https://images-ext-1.discordapp.net/external/3WvTFg0fL7-JLXiAlsehNQJR2x2_obxXJ55x1kxSGxc/https/i.postimg.cc/d0tFtdXM/pngtree-gold-crown-transparent-background-png-image-6536816.png?format=webp&quality=lossless",
   },
@@ -694,7 +694,7 @@ function renderVipCustomers() {
           <h3 class="vip-name">${customer.name}</h3>
         </div>
         <p class="CID">CID & Phone Number: ${customer.cid}</p>
-        <p class="vip-since">Membership ${customer.memberShip}</p>
+        <p class="vip-since">Membership ${customer.memberSince}</p>
       </article>
     `,
     )
