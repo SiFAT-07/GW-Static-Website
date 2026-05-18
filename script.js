@@ -182,33 +182,28 @@ const staffData = [
   },
   {
     name: "Sakir Samir",
-    designation: "SENIOR SALESMAN",
+    designation: "MANAGER",
     image: "Photos/jun.jpg",
   },
   {
     name: "Lalu Mostan",
-    designation: "SALESMAN",
+    designation: "SENIOR SALESMAN",
     image: "Photos/lalu.png",
   },
   {
-    name: "Atim Alu ",
+    name: "Rafael EnvrentÃ³ ",
     designation: "SALESMAN",
     image: "Photos/alu.png",
   },
   {
-    name: "Ishan Adler ",
-    designation: "SALESMAN",
+    name: "Junaeid Khanna ",
+    designation: "MANAGER",
     image: "Photos/ishan.png",
   },
   {
-    name: "Raaz Ahmed",
-    designation: "SALES Associate",
+    name: "Kael Varyn",
+    designation: "SALESMAN",
     image: "Photos/raz.png",
-  },
-  {
-    name: "Nick Vercetti ",
-    designation: "Sales Associate",
-    image: "Photos/lalu.png",
   },
 ];
 const vipCustomers = [
@@ -238,12 +233,11 @@ const DISCORD_WEBHOOK =
 const employees = [
   "Mr Judgment",
   "Sledge",
-  "Raaz Ahmed",
-  "Lalu Mostan",
-  "Atim Alu ",
-  "Nick Vercetti",
-  "Ishan Adler",
   "Sakir Samir",
+  "Lalu Mostan",
+  "Junaeid Khanna ",
+  "Rafael EnvrentÃ³",
+  "Kael Varyn",
 ];
 // ──────────────────────────────────────────────────────────────
 
