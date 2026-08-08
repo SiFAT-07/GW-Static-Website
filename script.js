@@ -231,13 +231,14 @@ const DISCORD_WEBHOOK =
   "https://discord.com/api/webhooks/1483165828701618259/4aJ4G1DwzjJOZZ2IUZHOUE_sRgErQRlZN927aeAoZfNmZgDFpJLaYx0oj3ZOpDl_DO4h";
 
 const employees = [
-  "Mr Judgment",
   "Sledge",
-  "Sakir Samir",
-  "Lalu Mostan",
-  "Junaeid Khanna ",
-  "Rafael EnvrentÃ³",
-  "Kael Varyn",
+  "Employee 2",
+  "Employee 3",
+  "Employee 4",
+  "Employee 5",
+  "Employee 6",
+  "Employee 7",
+  "Employee 8",
 ];
 // ──────────────────────────────────────────────────────────────
 
